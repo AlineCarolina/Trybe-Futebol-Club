@@ -4,11 +4,11 @@ import db from '.';
 class Match extends Model {
   public id: number;
 
-  public homeTeam: string;
+  public homeTeam: number;
 
   public homeTeamGoals: number;
 
-  public awayTeam: string;
+  public awayTeam: number;
 
   public awayTeamGoals: number;
 
@@ -24,22 +24,30 @@ Match.init({
   },
 
   home_team: {
-    type: DataTypes.STRING,
+    type: DataTypes.INTEGER,
     allowNull: false,
+    references: {
+      model: 'Clubs',
+      key: 'id',
+    },
   },
 
   home_team_goals: {
-    type: DataTypes.NUMBER,
+    type: DataTypes.INTEGER,
     allowNull: false,
   },
 
   away_team: {
-    type: DataTypes.STRING,
+    type: DataTypes.INTEGER,
     allowNull: false,
+    references: {
+      model: 'Clubs',
+      key: 'id',
+    },
   },
 
   away_team_goals: {
-    type: DataTypes.NUMBER,
+    type: DataTypes.INTEGER,
     allowNull: false,
   },
 
@@ -49,10 +57,10 @@ Match.init({
   },
 
 }, {
-  tableName: 'matchs',
+  tableName: 'matches',
   underscored: true,
   sequelize: db,
-  modelName: 'Match',
+  modelName: 'Matches',
   timestamps: false,
 });
 
