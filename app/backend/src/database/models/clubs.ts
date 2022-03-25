@@ -5,14 +5,12 @@ import db from '.';
 class Clubs extends Model {
   // public <campo>!: <tipo>;
 
-  public id: number;
+  public id!: number;
 
-  public clubName: string;
+  public clubName!: string;
 }
 
 Clubs.init({
-  // ... Campos
-
   id: {
     type: DataTypes.INTEGER,
     allowNull: false,
@@ -20,7 +18,8 @@ Clubs.init({
     primaryKey: true,
   },
 
-  club_name: {
+  clubName: {
+    field: 'club_name',
     type: DataTypes.STRING,
     allowNull: false,
   },
