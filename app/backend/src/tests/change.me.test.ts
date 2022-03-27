@@ -18,10 +18,10 @@ describe('Requisito 5 - teste rota /login', () => {
     sinon
       .stub(User, 'findOne').resolves({
         id: 1,
-        username: 'Teste',
-        role: 'teste',
-        email: 'teste@teste.com',
-        password: 'teste',
+        username: 'Admin',
+        role: 'admin',
+        email: 'admin@admin.com',
+        password: 'secret_admin',
       } as User);
   });
 
@@ -31,8 +31,8 @@ describe('Requisito 5 - teste rota /login', () => {
 
   it('é possível fazer o login com dados corretos', async () => {
     chaiHttpResponse = await chai.request(app).post('/login').send({
-      email: 'teste@teste.com',
-      password: 'teste',
+      email: 'admin@admin.com',
+      password: 'secret_admin',
     });
     expect(chaiHttpResponse).to.have.status(200);
   })

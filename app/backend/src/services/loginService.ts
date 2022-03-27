@@ -10,6 +10,8 @@ const login = async ({ email, password }: UserInterface) => {
 
   const passCrypt = bcrypt.compareSync(password, userLogin.password);
 
+  console.log(passCrypt);
+
   if (!passCrypt) return false;
 
   const token = await createToken({ email, password });

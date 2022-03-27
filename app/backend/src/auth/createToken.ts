@@ -1,9 +1,6 @@
-import { readFileSync } from 'fs';
 import * as fs from 'fs/promises';
 import * as jwt from 'jsonwebtoken';
 import UserInterface from '../interfaces/UserInterface';
-
-const secret = readFileSync('jwt.evaluation.key', 'utf-8');
 
 const create = async (userToken: UserInterface) => {
   const jwtConfig: jwt.SignOptions = {
@@ -11,9 +8,9 @@ const create = async (userToken: UserInterface) => {
     algorithm: 'HS256',
   };
 
-  const userSecret = await fs.readFile(secret, 'utf-8');
+  const secret = await fs.readFile('jwt.evaluation.key', 'utf-8');
 
-  const token = jwt.sign(userToken, userSecret, jwtConfig);
+  const token = jwt.sign(userToken, secret, jwtConfig);
 
   return token;
 };
