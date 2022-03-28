@@ -10,7 +10,7 @@ const login = async (req: Request, res: Response, next: NextFunction) => {
     if (!user) {
       return res.status(401).json({ error: 'Usuário não cadastrado' });
     }
-    return res.status(200).json({ user });
+    return res.status(200).json(user);
   } catch (error) {
     next(error);
   }
