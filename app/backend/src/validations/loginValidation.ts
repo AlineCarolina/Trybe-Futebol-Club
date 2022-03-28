@@ -7,8 +7,8 @@ const loginValidation = async (req: Request, res: Response, next: NextFunction) 
   const validEmail = regex.test(email);
 
   if (!validEmail) {
-    return res.status(400).json({
-      message: 'Invalid email',
+    return res.status(401).json({
+      message: 'Incorrect email or password',
     });
   }
 

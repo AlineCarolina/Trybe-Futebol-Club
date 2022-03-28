@@ -12,7 +12,7 @@ chai.use(chaiHttp);
 const { expect } = chai;
 
 describe('Requisito 5 - teste rota /login', () => {
-  let chaiHttpResponse: Response;
+  let response: Response;
 
   before(async () => {
     sinon
@@ -30,18 +30,18 @@ describe('Requisito 5 - teste rota /login', () => {
   });
 
   it('é possível fazer o login com dados corretos', async () => {
-    chaiHttpResponse = await chai.request(app).post('/login').send({
+    response = await chai.request(app).post('/login').send({
       email: 'admin@admin.com',
       password: 'secret_admin',
     });
-    expect(chaiHttpResponse).to.have.status(200);
+    expect(response).to.have.status(200);
   })
 
   it('quando o email ou senha não é valido retorna status 401', async () => {
-    chaiHttpResponse = await chai.request(app).post('/login').send({
+    response = await chai.request(app).post('/login').send({
       email: 'erro@erro',
       password: 'erro',
     });
-    expect(chaiHttpResponse).to.be.eq(401);
+    expect(response).to.be.eq(401);
   });
 });
