@@ -8,7 +8,7 @@ const loginValidation = async ({ email, password }: UserInterface) => {
 
   if (!validEmail) return { error: 401, message: 'Incorrect email or password' };
 
-  if (password.length < 6) return { error: 400, message: 'Password must be at least 6 characters' };
+  if (password.length < 6) return { error: 401, message: 'All fields must be filled' };
 
   return { error: 200, message: 'OK' };
 };

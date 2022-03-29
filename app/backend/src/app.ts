@@ -1,3 +1,4 @@
+import * as cors from 'cors';
 import * as express from 'express';
 import loginController from './controllers/loginController';
 
@@ -23,6 +24,7 @@ class App {
 
   public start(PORT: string | number):void {
     this.app.use(express.json());
+    this.app.use(cors());
     this.app.listen(PORT, () => console.log(`Rodando na porta ${PORT}`));
     this.app.post('/login', loginController);
   }
