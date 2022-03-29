@@ -1,6 +1,5 @@
 import * as express from 'express';
 import loginController from './controllers/loginController';
-import loginValidation from './validations/loginValidation';
 
 class App {
   public app: express.Express;
@@ -25,7 +24,7 @@ class App {
   public start(PORT: string | number):void {
     this.app.use(express.json());
     this.app.listen(PORT, () => console.log(`Rodando na porta ${PORT}`));
-    this.app.post('/login', loginValidation, loginController);
+    this.app.post('/login', loginController);
   }
 }
 

@@ -7,10 +7,11 @@ const login = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const user = await loginService({ email, password });
 
-    if (!user) {
-      return res.status(401).json({ error: 'Usuário não cadastrado' });
+    if (user.error !== 200) {
+      return res.status(user.error).json({ error: user.message });
     }
-    return res.status(200).json(user);
+
+    return res.status(200).json(user.message);
   } catch (error) {
     next(error);
   }

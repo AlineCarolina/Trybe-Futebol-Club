@@ -1,22 +1,16 @@
-import { NextFunction, Request, Response } from 'express';
+import UserInterface from '../interfaces/UserInterface';
 
-const loginValidation = async (req: Request, res: Response, next: NextFunction) => {
-  const { email, password } = req.body;
-
-  if (!email) res.status(401).json({ message: 'All fields must be filled' });
+const loginValidation = async ({ email, password }: UserInterface) => {
+  if (!email) return { error: 401, message: 'All fields must be filled' };
 
   const regex = /\S+@\S+\.\S+/;
   const validEmail = regex.test(email);
 
-  if (!validEmail) res.status(401).json({ message: 'Incorrect email or password' });
+  if (!validEmail) return { error: 401, message: 'Incorrect email or password' };
 
-  if (password.length < 6) {
-    res.status(400).json({
-      message: 'Password must be at least 6 characters',
-    });
-  }
+  if (password.length < 6) return { error: 400, message: 'Password must be at least 6 characters' };
 
-  next();
+  return { error: 200, message: 'OK' };
 };
 
 export default loginValidation;
