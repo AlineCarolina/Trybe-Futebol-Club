@@ -8,7 +8,7 @@ const login = async (req: Request, res: Response, next: NextFunction) => {
     const user = await loginService({ email, password });
 
     if (user.error !== 200) {
-      return res.status(user.error).json(user.message);
+      return res.status(user.error).json({ message: user.message });
     }
 
     return res.status(200).json(user.message);
