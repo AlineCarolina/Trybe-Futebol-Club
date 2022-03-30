@@ -17,15 +17,12 @@ const login = async ({ email, password }: UserInterface) => {
 
   if (!passCrypt) return { error: 401, message: 'Incorrect email or password' };
 
-  const token = await createToken({ email, password });
+  const { id, username, role } = userLogin;
+
+  const token = await createToken({ id, username, role, email });
 
   const resultUser = {
-    user: {
-      id: userLogin.id,
-      username: userLogin.username,
-      role: userLogin.role,
-      email: userLogin.email,
-    },
+    user: { id, username, email, role },
     token,
   };
 

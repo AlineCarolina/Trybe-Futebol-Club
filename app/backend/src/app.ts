@@ -26,7 +26,8 @@ class App {
     this.app.use(express.json());
     this.app.use(cors());
     this.app.listen(PORT, () => console.log(`Rodando na porta ${PORT}`));
-    this.app.post('/login', loginController);
+    this.app.post('/login', loginController.login);
+    this.app.get('/login/validate', loginController.validate);
   }
 }
 
