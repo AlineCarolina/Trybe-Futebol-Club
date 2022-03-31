@@ -35,7 +35,6 @@ describe('teste/login', () => {
         password: 'secret_admin',
     });
 
-    expect(response.body.message).to.have.an('object');
     expect(response).to.have.status(200);
   });
 
@@ -49,11 +48,11 @@ describe('teste/login', () => {
 
    it('quando o email não tem o formato esperado', async () => {
     response = await chai.request(app).post('/login').send({
-      email: 'admin',
+      email: 'admin.com',
       password: 'secret_admin',
     });
     expect(response.body.message).to.be.equal('Incorrect email or password');
-    expect(response).to.be.eq(401);
+    expect(response).to.have.status(401);
   });
 
   it('quando a senha tem menos de 6 caracteres', async () => {
@@ -62,7 +61,7 @@ describe('teste/login', () => {
       password: 'admin',
     });
     expect(response.body.message).to.be.equal('All fields must be filled');
-    expect(response.status).to.be.eq(401);
+    expect(response).to.have.status(401);
   });
 
   it('quando o email não esta cadastrado', async () => {
