@@ -1,6 +1,7 @@
 import * as cors from 'cors';
 import * as express from 'express';
 import loginController from './controllers/loginController';
+import clubsController from './controllers/clubsController';
 
 class App {
   public app: express.Express;
@@ -19,6 +20,8 @@ class App {
       next();
       this.app.post('/login', loginController.login);
       this.app.get('/login/validate', loginController.validate);
+      this.app.get('/clubs', clubsController.getClubs);
+      this.app.get('/clubs/:id', clubsController.getById);
     };
 
     this.app.use(accessControl);
