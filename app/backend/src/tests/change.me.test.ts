@@ -16,10 +16,10 @@ describe('teste/login', () => {
   before(async () => {
     sinon.stub(User, 'findOne').resolves({
       id: 1,
-      username: 'User',
-      role: 'user',
-      email: 'user@user.com',
-      password: 'secret_user',
+      username: 'Admin',
+      role: 'admin',
+      email: 'admin@admin.com',
+      password: 'secret_admin',
     } as User)
   });
 
@@ -27,60 +27,60 @@ describe('teste/login', () => {
     (User.findOne as sinon.SinonStub).restore();
   });
 
-  it('login realizado com sucesso', async () => {
+   it('login realizado com sucesso', async () => {
     response = await chai.request(app)
       .post('/login')
       .send({
-        email: 'user@user.com',
-        password: 'secret_user',
+        email: 'admin@admin.com',
+        password: 'secret_admin',
     });
 
-    expect(response.status).to.be.equal(200);
-    expect(response.body).to.be.an('object');
+    expect(response.body.message).to.have.an('object');
+    expect(response).to.have.status(200);
   });
 
   it('quando o email não é informado para realizar o login', async () => {
     response = await chai.request(app).post('/login').send({
-      password: 'secret_user',
+      password: 'secret_admin',
     });
+    expect(response.body.message).to.be.equal('All fields must be filled');
     expect(response).to.have.status(401);
-    expect(response.body.message).to.be.eq('All fields must be filled');
   });
 
-  it('quando o email não tem o formato esperado', async () => {
+   it('quando o email não tem o formato esperado', async () => {
     response = await chai.request(app).post('/login').send({
-      email: 'user.user.br',
-      password: 'secret_user',
+      email: 'admin',
+      password: 'secret_admin',
     });
+    expect(response.body.message).to.be.equal('Incorrect email or password');
     expect(response).to.be.eq(401);
-    expect(response.body.message).to.be.eq('Incorrect email or password');
   });
 
   it('quando a senha tem menos de 6 caracteres', async () => {
     response = await chai.request(app).post('/login').send({
       email: 'admin@admin.com',
       password: 'admin',
-  });
-    expect(response).to.have.status(401);
-    expect(response.body.message).to.be.eq('All fields must be filled');
+    });
+    expect(response.body.message).to.be.equal('All fields must be filled');
+    expect(response.status).to.be.eq(401);
   });
 
   it('quando o email não esta cadastrado', async () => {
     response = await chai.request(app).post('/login').send({
       email: 'teste@teste.com',
-      password: 'secret_user',
-  });
+      password: 'secret_admin',
+    });
+    expect(response.body.message).to.be.equal('Incorrect email or password');
     expect(response).to.have.status(401);
-    expect(response.body.message).to.be.eq('Usuário não cadastrado');
   });
 
   it('quando a senha esta incorreta', async () => {
     response = await chai.request(app).post('/login').send({
       email: 'admin@admin.com',
-      password: 'secret_user_teste',
+      password: 'secret_admin_teste',
     });
+    expect(response.body.message).to.be.equal('Incorrect email or password');
     expect(response).to.have.status(401);
-    expect(response.body.message).to.be.eq('Incorrect email or password');
   });
 
 });

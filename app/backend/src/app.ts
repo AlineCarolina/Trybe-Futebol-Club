@@ -17,6 +17,8 @@ class App {
       res.header('Access-Control-Allow-Methods', 'GET,POST,DELETE,OPTIONS,PUT');
       res.header('Access-Control-Allow-Headers', '*');
       next();
+      this.app.post('/login', loginController.login);
+      this.app.get('/login/validate', loginController.validate);
     };
 
     this.app.use(accessControl);
@@ -26,8 +28,6 @@ class App {
     this.app.use(express.json());
     this.app.use(cors());
     this.app.listen(PORT, () => console.log(`Rodando na porta ${PORT}`));
-    this.app.post('/login', loginController.login);
-    this.app.get('/login/validate', loginController.validate);
   }
 }
 
