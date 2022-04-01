@@ -7,6 +7,7 @@ const createLeaderBoard = (team: { name: string }, matchs: MatchInterface[]) => 
   const goals = matchs.reduce((acc, curr) => curr.homeTeamGoals + acc, 0);
   const outGoals = matchs.reduce((acc, curr) => curr.awayTeamGoals + acc, 0);
 
+  console.log(createLeaderBoard);
   return {
     ...team,
     totalPoints: victories.length * 3 + draws.length,
