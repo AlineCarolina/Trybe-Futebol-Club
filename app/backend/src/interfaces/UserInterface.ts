@@ -19,6 +19,7 @@ interface MatchInterface {
   homeTeamGoals: number,
   awayTeamGoals: number,
   inProgress: number,
+  message?: string,
 }
 
 export default UserInterface;

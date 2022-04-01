@@ -1,6 +1,7 @@
 import { MatchInterface } from '../interfaces/UserInterface';
 import Clubs from '../database/models/clubs';
 import Match from '../database/models/match';
+import verifyTeam from '../validations/verifyTeam';
 
 const getAll = async () => {
   const matchs = await Match.findAll({
@@ -31,9 +32,17 @@ const getInProgress = async (inProgress: boolean) => {
 
 const create = async (reqBody: MatchInterface) => {
   if (reqBody.homeTeam === reqBody.awayTeam) {
-    return false;
+    return { error: 401, message: 'It is not possible to create a match with two equal teams' };
   }
+
+  const verifyTeams = await verifyTeam([reqBody.homeTeam, reqBody.awayTeam]);
+
+  if (verifyTeams.includes(null)) {
+    return { error: 401, message: 'There is no team with such id!' };
+  }
+
   const newMatch = await Match.create(reqBody);
+
   return newMatch;
 };
 
@@ -41,9 +50,16 @@ const update = async (id: number) => {
   await Match.update({ inProgress: false }, { where: { id } });
 };
 
+const edit = async (id: number, updateMatch: { homeTeamGoals: number, awayTeamGoals: number }) => {
+  const { homeTeamGoals, awayTeamGoals } = updateMatch;
+
+  await Match.update({ homeTeamGoals, awayTeamGoals }, { where: { id } });
+};
+
 export default {
   getAll,
   getInProgress,
   create,
   update,
+  edit,
 };

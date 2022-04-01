@@ -15,20 +15,10 @@ const getAll = async (req: Request, res: Response, next: NextFunction) => {
 };
 
 const create = async (req: Request, res: Response, next: NextFunction) => {
-  const { homeTeam, awayTeam, homeTeamGoals, awayTeamGoals, inProgress } = req.body;
-
   try {
-    if (!inProgress) return res.status(401).json({ message: 'Match must be in progress' });
+    const created: any = await matchsService.create(req.body);
 
-    const objMatch = { homeTeam, awayTeam, homeTeamGoals, awayTeamGoals, inProgress };
-
-    const created = await matchsService.create(objMatch);
-
-    if (!created) {
-      return res.status(401).json(
-        { message: 'It is not possible to create a match with two equal teams' },
-      );
-    }
+    if (created.error) return res.status(400).json(created);
 
     return res.status(201).json(created);
   } catch (error) {
@@ -47,8 +37,18 @@ const update = async (req: Request, res: Response, next: NextFunction) => {
   }
 };
 
+const edit = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    await matchsService.edit(Number(req.params.id), req.body);
+    return res.status(200).json({ message: 'updated' });
+  } catch (error) {
+    next(error);
+  }
+};
+
 export default {
   getAll,
   create,
   update,
+  edit,
 };

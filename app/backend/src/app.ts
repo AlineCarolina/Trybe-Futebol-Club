@@ -26,6 +26,7 @@ class App {
       this.app.get('/matchs', matchsController.getAll);
       this.app.post('/matchs', matchsController.create);
       this.app.patch('/matchs/:id/finish', matchsController.update);
+      this.app.patch('/matchs/:id', matchsController.edit);
     };
 
     this.app.use(accessControl);
