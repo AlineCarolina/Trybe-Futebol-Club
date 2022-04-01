@@ -13,5 +13,13 @@ interface TokenInterface {
   role?: string;
 }
 
+interface MatchInterface {
+  homeTeam: number,
+  awayTeam: number,
+  homeTeamGoals: number,
+  awayTeamGoals: number,
+  inProgress: number,
+}
+
 export default UserInterface;
-export { TokenInterface };
+export { TokenInterface, MatchInterface };

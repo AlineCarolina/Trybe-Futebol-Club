@@ -24,7 +24,24 @@ const create = async (req: Request, res: Response, next: NextFunction) => {
 
     const created = await matchsService.create(objMatch);
 
+    if (!created) {
+      return res.status(401).json(
+        { message: 'It is not possible to create a match with two equal teams' },
+      );
+    }
+
     return res.status(201).json(created);
+  } catch (error) {
+    next(error);
+  }
+};
+
+const update = async (req: Request, res: Response, next: NextFunction) => {
+  const { id } = req.params;
+  try {
+    await matchsService.update(+id);
+
+    return res.status(200).json({ message: 'Match updated' });
   } catch (error) {
     next(error);
   }
@@ -33,4 +50,5 @@ const create = async (req: Request, res: Response, next: NextFunction) => {
 export default {
   getAll,
   create,
+  update,
 };
