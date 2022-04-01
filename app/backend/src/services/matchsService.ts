@@ -28,7 +28,13 @@ const getInProgress = async (inProgress: boolean) => {
   return result;
 };
 
+const create = async (reqBody: object) => {
+  const newMatch = await Match.create(reqBody);
+  return newMatch;
+};
+
 export default {
   getAll,
   getInProgress,
+  create,
 };
