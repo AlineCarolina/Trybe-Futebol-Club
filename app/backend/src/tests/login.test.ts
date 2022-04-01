@@ -13,7 +13,7 @@ const  { expect } = chai;
 describe('teste/login', () => {
   let response: Response;
 
-  before(async () => {
+  before(() => {
     sinon.stub(User, 'findOne').resolves({
       id: 1,
       username: 'Admin',
@@ -27,15 +27,21 @@ describe('teste/login', () => {
     (User.findOne as sinon.SinonStub).restore();
   });
 
-   it('login realizado com sucesso', async () => {
-    response = await chai.request(app)
-      .post('/login')
-      .send({
-        email: 'admin@admin.com',
-        password: 'secret_admin',
+  it('retorna status 200', async () => {
+    response = await chai.request(app).post('/login').send({
+      email: 'admin@admin.com',
+      password: 'secret_admin',
     });
-
     expect(response).to.have.status(200);
+  });
+
+  it('retorna um objeto', async () => {
+    response = await chai.request(app).post('/login').send({
+      email: 'admin@admin.com',
+      password: 'secret_admin',
+    });
+    console.log(response.status)
+    expect(response.body.mensagem).to.be.an('object');
   });
 
   it('quando o email não é informado para realizar o login', async () => {

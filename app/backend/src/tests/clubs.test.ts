@@ -12,7 +12,7 @@ const { expect } = chai;
 describe('teste/clubs', () => {
   let response: Response;
 
-  before(async () => {
+  before(() => {
     sinon.stub(Clubs, 'findAll').resolves([
         {
             id: 1,
@@ -33,28 +33,18 @@ describe('teste/clubs', () => {
       (Clubs.findAll as sinon.SinonStub).restore();
   });
 
-  it('retorna status 200', async () => {
+  it('retona os clubs do db', async () => {
       response = await chai.request(app).get('/clubs');
 
-      expect(response).to.have.status(200);
-  });
+      expect(response).to.be.an('array');
+  })
 
-  it('retorna os clubes do db', async () => {
+  it('retorna status 200', async () => {
     response = await chai.request(app).get('/clubs');
-
-    expect(response.body).to.be.eql([
-        {
-            id: 1,
-            clubName: 'Club 1',
-        },
-        {
-            id: 2,
-            clubName: 'Club 2',
-        },
-        {
-            id: 3,
-            clubName: 'Club 3',
-        }
-    ]);
+    console.log(response.body);
+   
+    expect(response).to.have.status(200);
+    expect(response.body).to.have.an('array');
   });
+
 });

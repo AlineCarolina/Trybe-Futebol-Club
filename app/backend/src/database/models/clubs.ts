@@ -1,13 +1,10 @@
 import { Model, DataTypes } from 'sequelize';
 import db from '.';
-// import OtherModel from './OtherModel';
 
 class Clubs extends Model {
-  // public <campo>!: <tipo>;
+  public id?: number;
 
-  public id!: number;
-
-  public clubName!: string;
+  public clubName: string;
 }
 
 Clubs.init({
@@ -19,7 +16,6 @@ Clubs.init({
   },
 
   clubName: {
-    field: 'club_name',
     type: DataTypes.STRING,
     allowNull: false,
   },

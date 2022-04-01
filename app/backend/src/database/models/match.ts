@@ -3,7 +3,7 @@ import db from '.';
 import Club from './clubs';
 
 class Match extends Model {
-  public id: number;
+  public id?: number;
 
   public homeTeam: number;
 
@@ -24,35 +24,27 @@ Match.init({
     primaryKey: true,
   },
 
-  home_team: {
-    type: DataTypes.INTEGER,
-    allowNull: false,
-    references: {
-      model: 'Clubs',
-      key: 'id',
-    },
-  },
-
-  home_team_goals: {
+  homeTeam: {
     type: DataTypes.INTEGER,
     allowNull: false,
   },
 
-  away_team: {
-    type: DataTypes.INTEGER,
-    allowNull: false,
-    references: {
-      model: 'Clubs',
-      key: 'id',
-    },
-  },
-
-  away_team_goals: {
+  homeTeamGoals: {
     type: DataTypes.INTEGER,
     allowNull: false,
   },
 
-  in_progress: {
+  awayTeam: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+  },
+
+  awayTeamGoals: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+  },
+
+  inProgress: {
     type: DataTypes.BOOLEAN,
     allowNull: false,
   },
@@ -65,7 +57,7 @@ Match.init({
   timestamps: false,
 });
 
-Match.belongsTo(Club, { foreignKey: 'home_team', as: 'homeClub' });
-Match.belongsTo(Club, { foreignKey: 'away_team', as: 'awayClub' });
+Match.belongsTo(Club, { foreignKey: 'homeTeam', as: 'homeClub' });
+Match.belongsTo(Club, { foreignKey: 'awayTeam', as: 'awayClub' });
 
 export default Match;
