@@ -3,6 +3,7 @@ import * as express from 'express';
 import loginController from './controllers/loginController';
 import clubsController from './controllers/clubsController';
 import matchsController from './controllers/matchsController';
+import LeaderBoardController from './controllers/LeaderBoardController';
 
 class App {
   public app: express.Express;
@@ -28,8 +29,8 @@ class App {
       this.app.post('/matchs', matchsController.create);
       this.app.patch('/matchs/:id/finish', matchsController.update);
       this.app.patch('/matchs/:id', matchsController.edit);
+      this.app.get('/leaderboard/home', LeaderBoardController);
     };
-
     this.app.use(accessControl);
   }
 

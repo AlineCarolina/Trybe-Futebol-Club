@@ -22,5 +22,18 @@ interface MatchInterface {
   message?: string,
 }
 
+interface LeaderBoardInterface{
+  name: string,
+  totalPoints: number,
+  totalGames: number,
+  totalVictories: number,
+  totalDraws: number,
+  totalLosses: number,
+  goalsFavor: number,
+  goalsOwn: number,
+  goalsBalance: number,
+  efficiency: number,
+}
+
 export default UserInterface;
-export { TokenInterface, MatchInterface };
+export { TokenInterface, MatchInterface, LeaderBoardInterface };
