@@ -18,7 +18,7 @@ const create = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const created: any = await matchsService.create(req.body);
 
-    if (created.error) return res.status(400).json(created);
+    if (created.error) return res.status(created.status).json(created);
 
     return res.status(201).json(created);
   } catch (error) {

@@ -38,7 +38,7 @@ const create = async (reqBody: MatchInterface) => {
   const verifyTeams = await verifyTeam([reqBody.homeTeam, reqBody.awayTeam]);
 
   if (verifyTeams.includes(null)) {
-    return { error: 400, message: 'There is no team with such id!' };
+    return { error: 401, message: 'There is no team with such id!' };
   }
 
   const newMatch = await Match.create(reqBody);
