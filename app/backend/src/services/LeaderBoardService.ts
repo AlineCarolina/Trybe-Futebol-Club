@@ -11,8 +11,8 @@ const getAll = async () => {
 
   const arrayClubs = allClubs.map((club) => ({ name: club.clubName }));
 
-  const score = arrayClubs.map((club) => {
-    const filterMatchs = dataMatchs.filter((match: any) => club.name === match.homeTeam.clubName);
+  const score: any = arrayClubs.map((club) => {
+    const filterMatchs = dataMatchs.filter((match: any) => club.name === match.homeClub.clubName);
 
     const result = createLeaderBoard(club, filterMatchs);
 
