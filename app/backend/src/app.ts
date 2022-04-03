@@ -30,6 +30,7 @@ class App {
       this.app.patch('/matchs/:id/finish', matchsController.update);
       this.app.patch('/matchs/:id', matchsController.edit);
       this.app.get('/leaderboard/home', LeaderBoardController.getAll);
+      this.app.get('/leaderboard/away', LeaderBoardController.getAll);
     };
     this.app.use(accessControl);
   }
