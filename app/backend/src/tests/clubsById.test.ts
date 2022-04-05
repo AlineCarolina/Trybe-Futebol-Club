@@ -27,8 +27,6 @@ describe('teste/clubs:id', () => {
   it('retorna mensagem correta', async () => {
     response = await chai.request(app).get('/clubs/1');
 
-    console.log(response.body);
-
     expect(response.body).to.be.eql({ id: 1, clubName: 'Club 1' });
   });
 

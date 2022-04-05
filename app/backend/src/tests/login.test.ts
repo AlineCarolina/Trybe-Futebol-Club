@@ -1,11 +1,11 @@
 import * as sinon from 'sinon';
 import * as chai from 'chai';
+import * as JWT from 'jsonwebtoken';
 import chaiHttp = require('chai-http');
 
 import { app } from '../app';
-import User from '../database/models/user';
-
 import { Response } from 'superagent';
+import User from '../database/models/user';
 
 chai.use(chaiHttp);
 const  { expect } = chai;
@@ -13,17 +13,17 @@ const  { expect } = chai;
 describe('teste/login', () => {
   let response: Response;
 
-  before(() => {
+  before(async () => {
     sinon.stub(User, 'findOne').resolves({
       id: 1,
       username: 'Admin',
       role: 'admin',
       email: 'admin@admin.com',
-      password: 'secret_admin',
+      password: '$2a$08$xi.Hxk1czAO0nZR..B393u10aED0RQ1N3PAEXQ7HxtLjKPEZBu.PW',
     } as User)
   });
 
-  after(() => {
+  after(async () => {
     (User.findOne as sinon.SinonStub).restore();
   });
 
@@ -32,7 +32,13 @@ describe('teste/login', () => {
       email: 'admin@admin.com',
       password: 'secret_admin',
     });
-    expect(response).to.have.status(401);
+    expect(response).to.have.status(200);
+    expect(response.body).to.be.property('user');
+    expect(response.body).to.be.property('token');
+    expect(response.body.user).to.be.property('id');
+    expect(response.body.user).to.be.property('username');
+    expect(response.body.user).to.be.property('role');
+    expect(response.body.user).to.be.property('email');
   });
 
   it('quando o email não é informado para realizar o login', async () => {
@@ -64,7 +70,7 @@ describe('teste/login', () => {
   it('quando o email não esta cadastrado', async () => {
     response = await chai.request(app).post('/login').send({
       email: 'teste@teste.com',
-      password: 'secret_admin',
+      password: 'teste_secret',
     });
     expect(response.body.message).to.be.equal('Incorrect email or password');
     expect(response).to.have.status(401);
@@ -77,6 +83,29 @@ describe('teste/login', () => {
     });
     expect(response.body.message).to.be.equal('Incorrect email or password');
     expect(response).to.have.status(401);
+  });
+
+});
+
+describe('teste/validate', () => {
+  let response: Response;
+
+  before(async () => {
+    sinon.stub(JWT, 'verify').resolves({ role: 'Admin' });
+  });
+
+  after(async () => {
+    (JWT.verify as sinon.SinonStub).restore();
+  });
+
+  it('returns status 200 with the user role', async () => {
+    response = await chai
+       .request(app)
+       .get('/login/validate')
+       .set('Authorization', 'fakeToken');
+
+    expect(response.status).to.equal(200);
+    expect(response.body).to.have.a('string');
   });
 
 });

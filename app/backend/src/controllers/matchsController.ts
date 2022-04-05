@@ -1,49 +1,33 @@
-import { Request, Response, NextFunction } from 'express';
+import { Request, Response } from 'express';
 import matchsService from '../services/matchsService';
 
-const getAll = async (req: Request, res: Response, next: NextFunction) => {
+const getAll = async (req: Request, res: Response) => {
   const { inProgress } = req.query;
-  try {
-    const matchs = inProgress ? await
-    matchsService.getInProgress(inProgress === 'true') : await
-    matchsService.getAll();
+  const matchs = inProgress ? await
+  matchsService.getInProgress(inProgress === 'true') : await
+  matchsService.getAll();
 
-    return res.status(200).json(matchs);
-  } catch (error) {
-    next(error);
-  }
+  return res.status(200).json(matchs);
 };
 
-const create = async (req: Request, res: Response, next: NextFunction) => {
-  try {
-    const created: any = await matchsService.create(req.body);
+const create = async (req: Request, res: Response) => {
+  const created: any = await matchsService.create(req.body);
 
-    if (created.error) return res.status(401).json(created);
+  if (created.error) return res.status(401).json(created);
 
-    return res.status(201).json(created);
-  } catch (error) {
-    next(error);
-  }
+  return res.status(201).json(created);
 };
 
-const update = async (req: Request, res: Response, next: NextFunction) => {
+const update = async (req: Request, res: Response) => {
   const { id } = req.params;
-  try {
-    await matchsService.update(+id);
+  await matchsService.update(+id);
 
-    return res.status(200).json({ message: 'Match updated' });
-  } catch (error) {
-    next(error);
-  }
+  return res.status(200).json({ message: 'Match updated' });
 };
 
-const edit = async (req: Request, res: Response, next: NextFunction) => {
-  try {
-    await matchsService.edit(Number(req.params.id), req.body);
-    return res.status(200).json({ message: 'updated' });
-  } catch (error) {
-    next(error);
-  }
+const edit = async (req: Request, res: Response) => {
+  await matchsService.edit(Number(req.params.id), req.body);
+  return res.status(200).json({ message: 'updated' });
 };
 
 export default {
