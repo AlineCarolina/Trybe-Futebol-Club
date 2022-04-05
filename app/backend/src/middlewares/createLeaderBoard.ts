@@ -21,6 +21,27 @@ const createLeaderBoard = (team: { name: string }, matchs: MatchInterface[]) => 
   };
 };
 
+const createLeaderBoardAway = (team: { name: string }, matchs: MatchInterface[]) => {
+  const victories = matchs.filter((match) => match.awayTeamGoals > match.homeTeamGoals);
+  const defeats = matchs.filter((match) => match.awayTeamGoals < match.homeTeamGoals);
+  const draws = matchs.filter((match) => match.awayTeamGoals === match.homeTeamGoals);
+  const goals = matchs.reduce((acc, curr) => curr.awayTeamGoals + acc, 0);
+  const outGoals = matchs.reduce((acc, curr) => curr.homeTeamGoals + acc, 0);
+
+  return {
+    ...team,
+    totalPoints: victories.length * 3 + draws.length,
+    totalGames: matchs.length,
+    totalVictories: victories.length,
+    totalDraws: draws.length,
+    totalLosses: defeats.length,
+    goalsFavor: goals,
+    goalsOwn: outGoals,
+    goalsBalance: goals - outGoals,
+    efficiency: +(((victories.length * 3 + draws.length) / (matchs.length * 3)) * 100).toFixed(2),
+  };
+};
+
 const rankingLeaderBoard = (scoreboard: LeaderBoardInterface[]) => scoreboard.sort((a, b) => {
   if (a.totalPoints < b.totalPoints) return 1;
   if (a.totalPoints > b.totalPoints) return -1;
@@ -38,4 +59,5 @@ const rankingLeaderBoard = (scoreboard: LeaderBoardInterface[]) => scoreboard.so
 export {
   createLeaderBoard,
   rankingLeaderBoard,
+  createLeaderBoardAway,
 };
