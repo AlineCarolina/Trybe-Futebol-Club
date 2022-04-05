@@ -35,13 +35,12 @@ describe('teste/clubs', () => {
 
   it('retona os clubs do db', async () => {
       response = await chai.request(app).get('/clubs');
-
-      expect(response).to.be.an('array');
+      
+      expect(response.body).to.be.an('object');
   })
 
   it('retorna status 200', async () => {
     response = await chai.request(app).get('/clubs');
-    console.log(response.body);
    
     expect(response).to.have.status(200);
     expect(response.body).to.have.an('array');

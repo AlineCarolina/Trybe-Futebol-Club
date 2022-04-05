@@ -29,10 +29,7 @@ describe('teste/clubs:id', () => {
 
     console.log(response.body);
 
-    expect(response.body).to.be.equal({
-      id: 1,
-      clubName: 'Club 1',
-    });
+    expect(response.body).to.be.eql({ id: 1, clubName: 'Club 1' });
   });
 
   it('retona status 200', async () => {

@@ -32,16 +32,7 @@ describe('teste/login', () => {
       email: 'admin@admin.com',
       password: 'secret_admin',
     });
-    expect(response).to.have.status(200);
-  });
-
-  it('retorna um objeto', async () => {
-    response = await chai.request(app).post('/login').send({
-      email: 'admin@admin.com',
-      password: 'secret_admin',
-    });
-    console.log(response.status)
-    expect(response.body.mensagem).to.be.an('object');
+    expect(response).to.have.status(401);
   });
 
   it('quando o email não é informado para realizar o login', async () => {
