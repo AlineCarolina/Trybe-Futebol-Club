@@ -107,5 +107,4 @@ describe('teste/validate', () => {
     expect(response.status).to.equal(200);
     expect(response.body).to.have.a('string');
   });
-
 });
